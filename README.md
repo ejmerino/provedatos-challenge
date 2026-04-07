@@ -10,7 +10,7 @@ Este proyecto es una solución integral para la gestión de nómina y personal, 
 - **Documentación:** Swagger (OpenAPI)
 - **Infraestructura:** Docker & Docker Compose
 
-## 📦 Ejecución con Docker (Recomendado)
+## 🐋 Ejecución con Docker
 
 La aplicación está completamente dockerizada. Esto garantiza que el entorno de base de datos, backend y frontend se levante de forma idéntica en cualquier máquina.
 
@@ -40,21 +40,21 @@ Una vez que los contenedores estén activos, podrá acceder a los diferentes ser
 
 Para realizar pruebas externas o consultas directas a la base de datos, puede utilizar las siguientes credenciales:
 
-Host: localhost
+- Host: localhost
 
-Puerto Local: 3311 (mapeado al puerto 3306 interno del contenedor)
+- Puerto Local: 3311 (mapeado al puerto 3306 interno del contenedor)
 
-Base de Datos: provedatos_db
+- Base de Datos: provedatos_db
 
-Usuario: root
+- Usuario: root
 
-Password: 1234
+- Password: 1234
 
 Nota importante: El sistema cuenta con un proceso de inicialización automática. Al levantar el contenedor de la base de datos por primera vez, se ejecuta el script init.sql (ubicado en /database), el cual crea las tablas necesarias y precarga el catálogo de provincias junto con 10 registros de prueba de colaboradores.
 
 ### Estructura del Proyecto
 
-- **/frontend**
-- **/backend**
-- **/database**
-- **docker-compose.yml**
+**/frontend**
+**/backend**
+**/database**
+**docker-compose.yml**
