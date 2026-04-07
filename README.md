@@ -31,11 +31,15 @@ La aplicación está completamente dockerizada. Esto garantiza que el entorno de
 ## Puntos de Acceso
 Una vez que los contenedores estén activos, podrá acceder a los diferentes servicios a través de las siguientes URLs:
 
-1. App Web (Frontend): http://localhost:8080
+1. App Web (Frontend): http://localhost:8080 
 
 2. API REST (Backend): http://localhost:3000
 
 3. Documentación API (Swagger): http://localhost:3000/api/docs
+
+Para autenticarse dentro del Frontend las credenciales son:
+- user: admin
+- password: admin
 
 ## Información de Base de Datos
 
