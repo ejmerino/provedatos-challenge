@@ -1,0 +1,37 @@
+services:
+  db:
+    image: mariadb:10.6
+    container_name: provedatos_db
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: 1234
+      MARIADB_DATABASE: provedatos_db
+    ports:
+      - "3311:3306"
+    volumes:
+      - ./database:/docker-entrypoint-initdb.d
+    command: --character-set-server=utf8 --collation-server=utf8_general_ci
+
+  backend:
+    build: ./backend
+    container_name: provedatos_backend
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_USER=root
+      - DB_PASS=1234
+      - DB_NAME=provedatos_db
+    depends_on:
+      - db
+
+  frontend:
+    build: ./frontend
+    container_name: provedatos_frontend
+    restart: always
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend

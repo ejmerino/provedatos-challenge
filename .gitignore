@@ -1,0 +1,17 @@
+# Node
+node_modules/
+dist/
+.npm
+/backend/dist
+/frontend/dist
+
+# Docker
+.dockerignore
+
+# IDEs
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db

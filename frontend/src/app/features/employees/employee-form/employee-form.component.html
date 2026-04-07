@@ -1,0 +1,108 @@
+<div class="max-w-5xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-6 duration-700">
+  <header class="flex justify-between items-end">
+    <div>
+      <span class="text-blue-600 font-black text-xs uppercase tracking-[0.3em] mb-2 block">RRHH Provedatos</span>
+      <h1 class="text-4xl font-black text-slate-800 tracking-tight">
+        {{ isEdit() ? 'Editar Colaborador' : 'Nuevo Registro' }}
+      </h1>
+    </div>
+    
+    <div class="flex p-1.5 bg-slate-200/60 backdrop-blur rounded-2xl border border-slate-200/50">
+      <button type="button" (click)="activeTab.set('personal')" 
+              [class]="activeTab() === 'personal' ? 'bg-white shadow-xl text-blue-600' : 'text-slate-500 hover:bg-white/50'"
+              class="px-8 py-3 rounded-xl font-black text-xs uppercase tracking-widest transition-all duration-300">
+        Datos Personales
+      </button>
+      <button type="button" (click)="activeTab.set('laboral')"
+              [class]="activeTab() === 'laboral' ? 'bg-white shadow-xl text-blue-600' : 'text-slate-500 hover:bg-white/50'"
+              class="px-8 py-3 rounded-xl font-black text-xs uppercase tracking-widest transition-all duration-300">
+        Datos Laborales
+      </button>
+    </div>
+  </header>
+
+  <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()" class="bg-white rounded-[2.5rem] p-12 shadow-2xl shadow-slate-200/60 border border-slate-100 relative overflow-hidden">
+    <div class="absolute top-0 right-0 w-64 h-64 bg-blue-50/50 rounded-full blur-3xl -mr-32 -mt-32"></div>
+
+    <div *ngIf="activeTab() === 'personal'" class="grid grid-cols-1 md:grid-cols-3 gap-12 relative z-10 animate-in slide-in-from-left-4 duration-300">
+      <div class="flex flex-col items-center border-r border-slate-100 pr-8">
+        <div class="w-48 h-48 rounded-[3rem] bg-slate-50 mb-6 overflow-hidden border-8 border-white shadow-2xl flex items-center justify-center group relative">
+          <img *ngIf="imagePreview()" [src]="imagePreview()" class="w-full h-full object-cover">
+          <span *ngIf="!imagePreview()" class="text-6xl group-hover:scale-110 transition-transform duration-500">👤</span>
+          <label class="absolute inset-0 bg-blue-600/80 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-all cursor-pointer text-white font-bold text-xs">
+            CAMBIAR FOTO
+            <input type="file" (change)="onFileSelected($event)" hidden accept="image/*">
+          </label>
+        </div>
+      </div>
+
+      <div class="md:col-span-2 grid grid-cols-2 gap-x-8 gap-y-6">
+        <div class="space-y-2 col-span-2 md:col-span-1">
+          <label class="text-[10px] font-black text-blue-500 uppercase tracking-widest ml-1">Código (Auto)</label>
+          <input formControlName="codigo_empleado" type="text" readonly class="w-full p-4 bg-slate-100 border-2 border-slate-200 rounded-2xl font-black text-slate-500 cursor-not-allowed">
+        </div>
+
+        <div class="space-y-2 col-span-2 md:col-span-1">
+          <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Fecha de Nacimiento</label>
+          <input formControlName="fecha_nacimiento" type="date" class="w-full p-4 bg-slate-50 border-2 border-transparent rounded-2xl outline-none focus:border-blue-400 font-semibold shadow-sm">
+          <p *ngIf="employeeForm.get('fecha_nacimiento')?.errors?.['menorDeEdad']" class="text-red-500 text-[10px] font-bold">DEBE SER MAYOR DE 18 AÑOS</p>
+        </div>
+
+        <div class="space-y-2"><label class="text-[10px] font-black text-slate-400 uppercase ml-1">Nombres</label><input formControlName="nombres" type="text" class="w-full p-4 bg-slate-50 border-2 border-transparent rounded-2xl outline-none focus:border-blue-400 font-semibold shadow-sm"></div>
+        <div class="space-y-2"><label class="text-[10px] font-black text-slate-400 uppercase ml-1">Apellidos</label><input formControlName="apellidos" type="text" class="w-full p-4 bg-slate-50 border-2 border-transparent rounded-2xl outline-none focus:border-blue-400 font-semibold shadow-sm"></div>
+        <div class="space-y-2"><label class="text-[10px] font-black text-slate-400 uppercase ml-1">Cédula</label><input formControlName="cedula" type="text" maxlength="10" class="w-full p-4 bg-slate-50 border-2 border-transparent rounded-2xl outline-none focus:border-blue-400 font-semibold shadow-sm"></div>
+        <div class="space-y-2"><label class="text-[10px] font-black text-slate-400 uppercase ml-1">Email</label><input formControlName="email" type="email" class="w-full p-4 bg-slate-50 border-2 border-transparent rounded-2xl outline-none focus:border-blue-400 font-semibold shadow-sm"></div>
+        
+        <div class="space-y-2 col-span-2">
+          <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Provincia Residencia</label>
+          <select formControlName="id_provincia_residencia" class="w-full p-4 bg-slate-50 border-2 border-transparent rounded-2xl outline-none focus:border-blue-400 font-semibold shadow-sm appearance-none">
+            <option value="">Seleccione...</option>
+            <option *ngFor="let p of provinces" [value]="p.id_provincia">{{p.nombre_provincia}}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="activeTab() === 'laboral'" class="grid grid-cols-2 gap-10 relative z-10 animate-in slide-in-from-right-4 duration-300">
+        <div class="space-y-2"><label class="text-[10px] font-black text-slate-400 uppercase ml-1">Cargo</label><input formControlName="cargo" type="text" class="w-full p-4 bg-slate-50 border-2 border-transparent rounded-2xl outline-none focus:border-blue-400 font-semibold shadow-sm"></div>
+        <div class="space-y-2">
+          <label class="text-[10px] font-black text-slate-400 uppercase ml-1">Sueldo Mensual</label>
+          <div class="relative"><span class="absolute left-4 top-4 font-black text-slate-400">$</span><input formControlName="sueldo" type="number" class="w-full p-4 pl-10 bg-slate-50 border-2 border-transparent rounded-2xl outline-none focus:border-blue-400 font-black text-xl shadow-sm"></div>
+        </div>
+        <div class="space-y-2">
+      <label class="text-[10px] font-black text-blue-500 uppercase tracking-widest ml-1">Estado Laboral</label>
+      <select formControlName="estado" class="w-full p-4 bg-slate-50 border-2 border-transparent rounded-2xl outline-none focus:border-blue-400 font-bold shadow-sm appearance-none cursor-pointer">
+        <option value="1 VIGENTE">🟢 1 VIGENTE</option>
+        <option value="9 RETIRADO">🔴 9 RETIRADO</option>
+      </select>
+    </div>
+
+    <div class="space-y-2">
+      <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Departamento</label>
+      <select formControlName="departamento" class="input-modern appearance-none">
+        <option value="SISTEMAS">SISTEMAS</option>
+        <option value="ADMINISTRACION">ADMINISTRACIÓN</option>
+        <option value="VENTAS">VENTAS</option>
+        <option value="OPERACIONES">OPERACIONES</option>
+      </select>
+    </div>
+      <div class="space-y-2">
+        <label class="text-[10px] font-black text-slate-400 uppercase ml-1">Provincia Laboral</label>
+        <select formControlName="id_provincia_laboral" class="w-full p-4 bg-slate-50 border-2 border-transparent rounded-2xl outline-none focus:border-blue-400 font-semibold shadow-sm appearance-none">
+          <option *ngFor="let p of provinces" [value]="p.id_provincia">{{p.nombre_provincia}}</option>
+        </select>
+      </div>
+      <div class="flex items-center gap-6 bg-blue-50/50 p-6 rounded-3xl self-end border border-blue-100">
+        <label class="text-[10px] font-black text-blue-800 uppercase tracking-widest">Jornada Parcial</label>
+        <input formControlName="jornada_parcial" type="checkbox" class="w-8 h-8 rounded-xl accent-blue-600 cursor-pointer shadow-sm">
+      </div>
+    </div>
+
+    <div class="mt-16 flex justify-end gap-6 border-t border-slate-50 pt-10">
+      <button type="button" routerLink="/employees" class="px-10 py-4 text-slate-400 font-black text-xs uppercase tracking-widest hover:text-slate-600 transition-colors">Regresar</button>
+      <button type="submit" [disabled]="employeeForm.invalid" class="px-16 py-5 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-2xl shadow-blue-200 disabled:opacity-30 hover:scale-105 active:scale-95 transition-all">
+        {{ isEdit() ? 'GUARDAR CAMBIOS' : 'FINALIZAR REGISTRO' }}
+      </button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .input-modern {
+    @apply w-full p-4 bg-slate-50 border-2 border-transparent rounded-2xl outline-none focus:bg-white focus:border-blue-400 transition-all font-semibold;
+  }
+  .label-style {
+    @apply text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1;
+  }
+}
