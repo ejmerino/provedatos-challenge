@@ -23,9 +23,10 @@ La aplicación está completamente dockerizada. Esto garantiza que el entorno de
 3. Ejecute el comando:
    ```bash
    docker-compose up --build
-4. Espere a que la terminal muestre el mensaje: 
+4. Puede tomar un tiempo de hasta 3 minutos. Espere a que la terminal muestre el mensaje: 
     ```bash
     Nest application successfully started.
+    provedatos_backend   | Swagger docs at: http://localhost:3000/api/docs
 
 ## Puntos de Acceso
 Una vez que los contenedores estén activos, podrá acceder a los diferentes servicios a través de las siguientes URLs:
